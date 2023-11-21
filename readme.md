@@ -39,11 +39,11 @@ diesel migration generate courses
 
 ### APIs Testing
 1. View all courses: /courses
-2. Create a course: /api/course
-Payload: Content-Type: "application/json"
-{
-    "title": "Course Name",
-    "description": "Description"
+2. Create a course: /api/course \
+Payload: Content-Type: "application/json" \
+{ \
+    "title": "Course Name", \
+    "description": "Description" \
 }
 
 * More datapoints and APIs will be added
