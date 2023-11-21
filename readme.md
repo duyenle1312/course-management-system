@@ -36,3 +36,14 @@ diesel migration generate courses
 1. cargo build && cargo run
 2. cargo watch -x run
 ```
+
+### APIs Testing
+1. View all courses: /courses
+2. Create a course: /api/course
+Payload: Content-Type: "application/json"
+{
+    "title": "Course Name",
+    "description": "Description"
+}
+
+* More datapoints and APIs will be added
