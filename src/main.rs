@@ -1,6 +1,5 @@
 extern crate diesel;
 extern crate rocket;
-extern crate rocket_contrib;
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use dotenvy::dotenv;
@@ -22,48 +21,48 @@ pub fn establish_connection_pg() -> PgConnection {
 }
 
 #[derive(Serialize, Deserialize)]
-struct NewPost {
+struct NewCourse {
     title: String,
-    body: String,
+    description: String,
 }
 
 type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
-#[post("/post", format = "json", data = "<post>")]
-fn create_post(post: Json<NewPost>) -> Result<Created<Json<NewPost>>> {
-    use self::schema::posts::dsl::*;
-    use models::NewPost;
+#[post("/course", format = "json", data = "<course>")]
+fn create_course(course: Json<NewCourse>) -> Result<Created<Json<NewCourse>>> {
+    use self::schema::courses::dsl::*;
+    use models::NewCourse;
     let mut connection = establish_connection_pg();
 
-    let new_post = NewPost {
-        title: post.title.to_string(),
-        body: post.body.to_string(),
+    let new_course = NewCourse {
+        title: course.title.to_string(),
+        description: course.description.to_string(),
         published: true,
     };
 
-    diesel::insert_into(posts)
-        .values(&new_post)
+    diesel::insert_into(courses)
+        .values(&new_course)
         .execute(&mut connection)
-        .expect("Error saving new post");
+        .expect("Error saving new course");
 
-    Ok(Created::new("/").body(post))
+    Ok(Created::new("/").body(course))
 }
 
-#[get("/posts")]
+#[get("/courses")]
 fn index() -> Template {
-    use self::models::Post;
+    use self::models::Course;
 
     let connection = &mut establish_connection_pg();
-    let results = self::schema::posts::dsl::posts
-        .load::<Post>(connection)
-        .expect("Error loading posts");
-    Template::render("posts", context! {posts: &results, count: results.len()})
+    let results = self::schema::courses::dsl::courses
+        .load::<Course>(connection)
+        .expect("Error loading courses");
+    Template::render("courses", context! {courses: &results, count: results.len()})
 }
 
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/api", routes![create_post])
+        .mount("/api", routes![create_course])
         .mount("/", routes![index])
         .attach(Template::fairing())
 }

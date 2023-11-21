@@ -1,6 +1,7 @@
-CREATE TABLE posts (
+-- Your SQL goes here
+CREATE TABLE courses (
   id SERIAL PRIMARY KEY,
   title VARCHAR NOT NULL,
-  body TEXT NOT NULL,
+  description TEXT NOT NULL,
   published BOOLEAN NOT NULL DEFAULT FALSE
 )

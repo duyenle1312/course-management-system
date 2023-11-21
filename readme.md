@@ -1,17 +1,18 @@
 Mac install db
 ```
-brew update && brew install postgresql && brew services start postgresql
-cargo install diesel_cli --no-default-features --features postgres
+brew update && brew install coursegresql && brew services start coursegresql
+cargo install diesel_cli --no-default-features --features coursegres
 ```
-brew services start postgresql
-brew services stop postgresql
-psql postgres
+brew services start coursegresql
+brew services stop coursegresql
+psql coursegres
 CREATE ROLE newUser WITH LOGIN PASSWORD 'password';
 ALTER ROLE newUser CREATEDB;
 
 Installation
 rustup override set nightly
 cargo install cargo-watch
+//diesel migration generate courses
 diesel migration run
 
 Run
